@@ -9,15 +9,18 @@ import ThreadFetchData
 import ThreadProcessData
 import queue
 import socket
+import config
 
 def main():
+    '''main'''
     url_queue = queue.Queue()
     junk_queue = queue.Queue()
     cal_queue = queue.Queue()
+    c = config.Config()
     socket.setdefaulttimeout(10) #apply global timeout
     
     #spawn some fetchers
-    for i in range(2):
+    for i in range(c.fetch_threads):
         t = ThreadFetchData.ThreadFetchData(url_queue, junk_queue)
         t.setDaemon(True)
         t.start()
@@ -26,11 +29,11 @@ def main():
     lext = [mod.Extension() for mod in em.extensions.values()]
 
     for ex in lext:
-        for url in ex.generate_url(10):
+        for url in ex.generate_url(c.max_urls_per_pastebin):
             url_queue.put(url)
 
     #spawn some datamining threads
-    for i in range(1):
+    for i in range(c.datamine_threads):
         dt = ThreadProcessData.ThreadProcessData(junk_queue)
         dt.setDaemon(True)
         dt.start()
@@ -38,7 +41,6 @@ def main():
     #wait until data processing has been finished
     url_queue.join()
     junk_queue.join()
-
 
 if __name__ == '__main__':
     main()
