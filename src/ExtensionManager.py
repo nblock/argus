@@ -7,13 +7,16 @@ import pkgutil
 import imp
 import os
 import sys
+import config
+
+c = config.Config()
 
 class ExtensionManager:
     '''ExtensionManager -- process extensions'''
 
     extensions = {}
 
-    def __init__(self, folder = 'extensions/'):
+    def __init__(self, folder = c.extensions_directory):
         '''add every extension to extensions dict'''
         plugin_path = []
         plugin_path.append(os.path.join(os.path.abspath('.'), folder))

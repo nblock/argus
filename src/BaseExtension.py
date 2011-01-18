@@ -10,7 +10,7 @@ class BaseExtension(metaclass=ABCMeta):
     '''BaseExtension -- abstract Extension class'''
 
     @abstractmethod
-    def generate_url(self, max = 100):
+    def generate_url(self):
         '''yield a new target url'''
         pass
 

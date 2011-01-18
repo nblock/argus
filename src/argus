@@ -25,7 +25,7 @@ def main():
         t.setDaemon(True)
         t.start()
     
-    em = ExtensionManager.ExtensionManager()
+    em = ExtensionManager.ExtensionManager(c.extensions_directory)
     lext = [mod.Extension() for mod in em.extensions.values()]
 
     for ex in lext:
