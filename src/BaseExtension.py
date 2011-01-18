@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 ##
+# project: this file is part of argus
 # author: notizblock <nblock@archlinux.us>
 # license: GPLv3
 
