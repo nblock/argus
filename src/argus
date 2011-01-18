@@ -17,7 +17,7 @@ def main():
     junk_queue = queue.Queue()
     cal_queue = queue.Queue()
     c = config.Config()
-    socket.setdefaulttimeout(10) #apply global timeout
+    socket.setdefaulttimeout(c.http_timeout) #apply global timeout
     
     #spawn some fetchers
     for i in range(c.fetch_threads):
