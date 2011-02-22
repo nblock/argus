@@ -39,6 +39,7 @@ class Extension(BaseExtension.BaseExtension):
             if start_match and end_match:
                 dd['data'] = tmp[start_match.start()+109:end_match.start()]
             else:
+                log.warning('could not retrieve data from pastebin.com')
                 dd['data'] = ''
 
             log.debug('added link {}'.format(url))
