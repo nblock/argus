@@ -18,7 +18,7 @@ class ThreadProcessData(threading.Thread):
             #grabs host from queue
             junk = self.junk_queue.get()
 
-            print('test: {}'.format(junk['url']))
+            print('url: {} -- data: {}'.format(junk['url'], junk['data'][:10]))
             self.junk_queue.task_done()
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 

@@ -9,6 +9,7 @@ import BaseExtension
 import urllib.request
 import re
 import config
+import helper
 
 class Extension(BaseExtension.BaseExtension):
     '''Extension for pastebin.com'''
@@ -29,6 +30,7 @@ class Extension(BaseExtension.BaseExtension):
         3. put data in queue {url = link to post, data = raw data}'''
         for url in self._generate_url():
             dd = {'url' : url}  #new data dictionary
+            dd['data'] = helper.retrieve_full_url(url)
 
             self.queue.put(dd)
 
