@@ -6,13 +6,22 @@
 # license: GPLv3
 
 from abc import ABCMeta, abstractmethod
+import threading
 
-class BaseExtension(metaclass=ABCMeta):
+class BaseExtension(threading.Thread, metaclass=ABCMeta):
     '''BaseExtension -- abstract Extension class'''
+    
+    def __init__(self, group=None, target=None, name=None,
+                 args=(), kwargs=None, verbose=None):
+        threading.Thread.__init__(self, group=group, target=target, name=name,
+                                  verbose=verbose)
+        self.args = args
+        self.kwargs = kwargs
+        return
 
     @abstractmethod
-    def generate_url(self):
-        '''yield a new target url'''
+    def run(self):
+        '''fetch pastebin data and save it in a queue'''
         pass
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 

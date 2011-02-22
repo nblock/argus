@@ -8,16 +8,25 @@
 import BaseExtension
 import urllib.request
 import re
+import time
 
 class Extension(BaseExtension.BaseExtension):
     '''Extension for pastebin.com'''
     
-    def __init__(self):
+    def __init__(self, testqueue):
+        BaseExtension.BaseExtension.__init__(self)
         self.len_archive = 200
         self.base_url = 'http://pastebin.com'
         self.pattern = re.compile('http://pastebin.com/([a-zA-Z0-9]{8})')
+        self.q = testqueue
+    
+    def run(self):
+        for i in range(100):
+            self.q.put('iiiiii {}'.format(i))
+            time.sleep(1)
+        print('test')
 
-    def generate_url(self, max = 100):
+    def _generate_url(self, max = 100):
         '''yield pastebin url's
 
         max -- maximum amount of url's to yield'''

@@ -27,11 +27,10 @@ def main():
         t.start()
     
     em = ExtensionManager.ExtensionManager(c.extensions_directory)
-    lext = [mod.Extension() for mod in em.extensions.values()]
-
+    lext = [mod.Extension(junk_queue) for mod in em.extensions.values()]
+    
     for ex in lext:
-        for url in ex.generate_url(c.max_urls_per_pastebin):
-            url_queue.put(url)
+        ex.start()
 
     #spawn some datamining threads
     for i in range(c.datamine_threads):
