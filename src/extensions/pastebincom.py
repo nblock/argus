@@ -9,7 +9,6 @@ import BaseExtension
 import urllib.request
 import re
 
-#TODO: caching yields double entries...
 class Extension(BaseExtension.BaseExtension):
     '''Extension for pastebin.com'''
     
@@ -23,12 +22,14 @@ class Extension(BaseExtension.BaseExtension):
 
         max -- maximum amount of url's to yield'''
         amount = 0
+        index = 0
+        cache = []
         for nr in range(1, self.len_archive):
-            cache = self._harvest_archive(nr)
-            while len(cache) > 0:
+            self._update_cache(cache, self._harvest_archive(nr))
+            while index < len(cache):
                 if amount < max:
-                    yield '{}/{}'.format(self.base_url, cache[0])
-                    del cache[0]
+                    yield '{}/{}'.format(self.base_url, cache[index])
+                    index += 1
                     amount += 1
                 else: 
                     return
@@ -38,5 +39,11 @@ class Extension(BaseExtension.BaseExtension):
         f = urllib.request.urlopen('{}/archive/{}'.format(self.base_url, 2))
         l = self.pattern.findall(f.readall().decode('utf8'))
         return list(set(l))
+
+    def _update_cache(self, cache, items):
+        '''update the cache with the given list of items if an item isn't present in the cache.''' 
+        for elem in items:
+            if elem not in cache:
+                cache.append(elem)
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 

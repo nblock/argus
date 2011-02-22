@@ -28,6 +28,8 @@ class ThreadFetchData(threading.Thread):
                     print('an error occured while fetching url (reason: {}).'.format(e.reason))
                 elif hasattr(e, 'code'):
                     print('The server couldn\'t fulfill the request (error code: {}).'.format(e.code))
+            except UnicodeDecodeError as e:
+                print('an unicode decode error has appeared: {}'.format(e.reason))
 
             self.url_queue.task_done()
 
