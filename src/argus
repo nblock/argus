@@ -44,9 +44,9 @@ def main():
         dt.start()
     
     #spawn output thread
-    dt = ThreadOutputData.ThreadOutputData(out_queue)
-    dt.setDaemon(True)
-    dt.start()
+    ot = ThreadOutputData.ThreadOutputData(out_queue)
+    ot.setDaemon(True)
+    ot.start()
     
     #wait until data processing has been finished
     junk_queue.join()

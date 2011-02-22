@@ -6,6 +6,9 @@
 # license: GPLv3
 
 import threading
+import logging
+
+log = logging.getLogger('argus.ThreadOutputData')
 
 class ThreadOutputData(threading.Thread):
     '''process data'''
@@ -16,7 +19,7 @@ class ThreadOutputData(threading.Thread):
     def run(self):
         while True:
             item = self.out_queue.get()
-            print('url: {} ++ data: {}'.format(item['url'], item['data']))
+            log.debug('url: {} ++ data: {}'.format(item['url'], item['data']))
             self.out_queue.task_done()
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 
