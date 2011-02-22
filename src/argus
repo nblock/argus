@@ -11,6 +11,7 @@ import ThreadOutputData
 import queue
 import socket
 import config
+import logging
 
 def main():
     '''main'''
@@ -18,7 +19,16 @@ def main():
     out_queue = queue.Queue()
     c = config.Config()
     socket.setdefaulttimeout(c.http_timeout) #apply global timeout
+
+    #configure logging
+    log = logging.getLogger('argus')
+    log.setLevel(logging.DEBUG)
+    ch = logging.StreamHandler()
+    formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
+    ch.setFormatter(formatter)
+    log.addHandler(ch)
     
+    log.info('start argus')
     #initialize extensions
     em = ExtensionManager.ExtensionManager(c.extensions_directory)
     lext = [mod.Extension(junk_queue) for mod in em.extensions.values()]

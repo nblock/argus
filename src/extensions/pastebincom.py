@@ -10,6 +10,9 @@ import urllib.request
 import re
 import config
 import helper
+import logging
+
+log = logging.getLogger('argus.extension.pastebincom')
 
 class Extension(BaseExtension.BaseExtension):
     '''Extension for pastebin.com'''
@@ -38,6 +41,7 @@ class Extension(BaseExtension.BaseExtension):
             else:
                 dd['data'] = ''
 
+            log.debug('added link {}'.format(url))
             self.queue.put(dd)
 
     def _generate_url(self):
