@@ -25,7 +25,6 @@ def main():
     
     #execute extensions
     for ex in lext:
-        ex.setDaemon(True)
         ex.start()
 
     #spawn some datamining threads

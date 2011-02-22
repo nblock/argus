@@ -9,9 +9,10 @@ import threading
 
 class ThreadProcessData(threading.Thread):
     '''process data'''
-    def __init__(self, junk_queue):
+    def __init__(self, junk_queue, out_queue):
         threading.Thread.__init__(self)
         self.junk_queue = junk_queue
+        self.out_queue = out_queue
 
     def run(self):
         while True:
