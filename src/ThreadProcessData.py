@@ -16,10 +16,8 @@ class ThreadProcessData(threading.Thread):
 
     def run(self):
         while True:
-            #grabs host from queue
             junk = self.junk_queue.get()
 
-            print('url: {} -- data: {}'.format(junk['url'], junk['data'][:10]))
             self.out_queue.put(junk)
             self.junk_queue.task_done()
 

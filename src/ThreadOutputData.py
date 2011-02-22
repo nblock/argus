@@ -16,7 +16,7 @@ class ThreadOutputData(threading.Thread):
     def run(self):
         while True:
             item = self.out_queue.get()
-            print('url: {} ++ data: {}'.format(item['url'], item['data'][:10]))
+            print('url: {} ++ data: {}'.format(item['url'], item['data']))
             self.out_queue.task_done()
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 

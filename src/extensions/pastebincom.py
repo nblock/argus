@@ -30,7 +30,14 @@ class Extension(BaseExtension.BaseExtension):
         3. put data in queue {url = link to post, data = raw data}'''
         for url in self._generate_url():
             dd = {'url' : url}  #new data dictionary
-            dd['data'] = helper.retrieve_full_url(url)
+            tmp = helper.retrieve_full_url(url)
+            start_match = re.search('<textarea ', tmp)  #get start of paste
+            end_match = re.search('</textarea>', tmp)   #get end of paste
+
+            if start_match and end_match:
+                dd['data'] = tmp[start_match.start()+109:end_match.start()]
+            else:
+                dd['data'] = ''
 
             self.queue.put(dd)
 
