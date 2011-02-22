@@ -14,33 +14,29 @@ import config
 
 def main():
     '''main'''
-    url_queue = queue.Queue()
     junk_queue = queue.Queue()
-    cal_queue = queue.Queue()
+    out_queue = queue.Queue()
     c = config.Config()
     socket.setdefaulttimeout(c.http_timeout) #apply global timeout
     
-    #spawn some fetchers
-    for i in range(c.fetch_threads):
-        t = ThreadFetchData.ThreadFetchData(url_queue, junk_queue)
-        t.setDaemon(True)
-        t.start()
-    
+    #initialize extensions
     em = ExtensionManager.ExtensionManager(c.extensions_directory)
     lext = [mod.Extension(junk_queue) for mod in em.extensions.values()]
     
+    #execute extensions
     for ex in lext:
+        ex.setDaemon(True)
         ex.start()
 
     #spawn some datamining threads
     for i in range(c.datamine_threads):
-        dt = ThreadProcessData.ThreadProcessData(junk_queue)
+        dt = ThreadProcessData.ThreadProcessData(junk_queue, out_queue)
         dt.setDaemon(True)
         dt.start()
     
     #wait until data processing has been finished
-    url_queue.join()
     junk_queue.join()
+    out_queue.join()
 
 if __name__ == '__main__':
     main()

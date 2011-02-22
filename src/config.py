@@ -16,6 +16,7 @@ class Config():
     max_urls_per_pastebin = 10
 
     #how many threads should be used for fetching
+    #TODO: re-implement
     fetch_threads = 2
 
     #how many threads should be used for datamining
