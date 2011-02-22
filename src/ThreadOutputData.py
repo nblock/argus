@@ -7,20 +7,16 @@
 
 import threading
 
-class ThreadProcessData(threading.Thread):
+class ThreadOutputData(threading.Thread):
     '''process data'''
-    def __init__(self, junk_queue, out_queue):
+    def __init__(self, out_queue):
         threading.Thread.__init__(self)
-        self.junk_queue = junk_queue
         self.out_queue = out_queue
 
     def run(self):
         while True:
-            #grabs host from queue
-            junk = self.junk_queue.get()
-
-            print('url: {} -- data: {}'.format(junk['url'], junk['data'][:10]))
-            self.out_queue.put(junk)
-            self.junk_queue.task_done()
+            item = self.out_queue.get()
+            print('url: {} ++ data: {}'.format(item['url'], item['data'][:10]))
+            self.out_queue.task_done()
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 

@@ -6,8 +6,8 @@
 # license: GPLv3
 
 import ExtensionManager
-import ThreadFetchData
 import ThreadProcessData
+import ThreadOutputData
 import queue
 import socket
 import config
@@ -32,6 +32,11 @@ def main():
         dt = ThreadProcessData.ThreadProcessData(junk_queue, out_queue)
         dt.setDaemon(True)
         dt.start()
+    
+    #spawn output thread
+    dt = ThreadOutputData.ThreadOutputData(out_queue)
+    dt.setDaemon(True)
+    dt.start()
     
     #wait until data processing has been finished
     junk_queue.join()
