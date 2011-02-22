@@ -14,21 +14,26 @@ class Extension(BaseExtension.BaseExtension):
     '''Extension for pastebin.com'''
     
     def __init__(self, queue):
-        BaseExtension.BaseExtension.__init__(self)
-        self.len_archive = 200
+        BaseExtension.BaseExtension.__init__(self)  #init thread
+        self.len_archive = 2009                     #nr. of available pastbin.com archives
         self.base_url = 'http://pastebin.com'
         self.pattern = re.compile('http://pastebin.com/([a-zA-Z0-9]{8})')
-        self.queue = queue
-        self.config = config.Config()
+        self.queue = queue                          #global queue to put the junk in
+        self.config = config.Config()               #config
     
     def run(self):
+        '''perform data harvesting
+
+        1. generate a list of url's to visit
+        2. visit each url
+        3. put data in queue {url = link to post, data = raw data}'''
         for url in self._generate_url():
-            self.queue.put(url)
+            dd = {'url' : url}  #new data dictionary
+
+            self.queue.put(dd)
 
     def _generate_url(self):
-        '''yield pastebin url's
-
-        max -- maximum amount of url's to yield'''
+        '''yield pastebin url's'''
         amount = 0
         index = 0
         cache = []
