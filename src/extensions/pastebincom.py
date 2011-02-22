@@ -18,7 +18,6 @@ class Extension(BaseExtension.BaseExtension):
         BaseExtension.BaseExtension.__init__(self)  #init thread
         self.len_archive = 2009                     #nr. of available pastbin.com archives
         self.base_url = 'http://pastebin.com'
-        self.pattern = re.compile('http://pastebin.com/([a-zA-Z0-9]{8})')
         self.queue = queue                          #global queue to put the junk in
         self.config = config.Config()               #config
     
@@ -59,7 +58,7 @@ class Extension(BaseExtension.BaseExtension):
     def _harvest_archive(self, nr):
         '''harvest pastebin archive page <nr> and return pastebin id's'''
         f = urllib.request.urlopen('{}/archive/{}'.format(self.base_url, nr))
-        l = self.pattern.findall(f.readall().decode('utf8'))
+        l = re.findall('http://pastebin.com/([a-zA-Z0-9]{8})', f.readall().decode('utf8'))
         return list(set(l))
 
     def _update_cache(self, cache, items):
