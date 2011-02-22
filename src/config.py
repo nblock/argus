@@ -13,7 +13,7 @@ class Config():
     # - commandline parameters
 
     #max url's per pastebin
-    max_urls_per_pastebin = 10
+    max_urls_per_pastebin = 70
 
     #how many threads should be used for fetching
     fetch_threads = 2

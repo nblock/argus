@@ -8,25 +8,24 @@
 import BaseExtension
 import urllib.request
 import re
-import time
+import config
 
 class Extension(BaseExtension.BaseExtension):
     '''Extension for pastebin.com'''
     
-    def __init__(self, testqueue):
+    def __init__(self, queue):
         BaseExtension.BaseExtension.__init__(self)
         self.len_archive = 200
         self.base_url = 'http://pastebin.com'
         self.pattern = re.compile('http://pastebin.com/([a-zA-Z0-9]{8})')
-        self.q = testqueue
+        self.queue = queue
+        self.config = config.Config()
     
     def run(self):
-        for i in range(100):
-            self.q.put('iiiiii {}'.format(i))
-            time.sleep(1)
-        print('test')
+        for url in self._generate_url():
+            self.queue.put(url)
 
-    def _generate_url(self, max = 100):
+    def _generate_url(self):
         '''yield pastebin url's
 
         max -- maximum amount of url's to yield'''
@@ -36,7 +35,7 @@ class Extension(BaseExtension.BaseExtension):
         for nr in range(1, self.len_archive):
             self._update_cache(cache, self._harvest_archive(nr))
             while index < len(cache):
-                if amount < max:
+                if amount < self.config.max_urls_per_pastebin:
                     yield '{}/{}'.format(self.base_url, cache[index])
                     index += 1
                     amount += 1
@@ -45,7 +44,7 @@ class Extension(BaseExtension.BaseExtension):
 
     def _harvest_archive(self, nr):
         '''harvest pastebin archive page <nr> and return pastebin id's'''
-        f = urllib.request.urlopen('{}/archive/{}'.format(self.base_url, 2))
+        f = urllib.request.urlopen('{}/archive/{}'.format(self.base_url, nr))
         l = self.pattern.findall(f.readall().decode('utf8'))
         return list(set(l))
 
