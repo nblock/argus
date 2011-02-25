@@ -24,6 +24,9 @@ class Config():
     
     #extension directory
     extensions_directory = 'extensions/'
+    
+    #rules directory
+    rules_directory = 'rules.d/'
 
     #http timeout in seconds (global)
     http_timeout = 5

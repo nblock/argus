@@ -8,6 +8,7 @@
 import ExtensionManager
 import ThreadProcessData
 import ThreadOutputData
+import RulesManager
 import queue
 import socket
 import config
@@ -29,6 +30,10 @@ def main():
     log.addHandler(ch)
     
     log.info('start argus')
+
+    rules = RulesManager.RulesManager().get_rules_dict()
+    print(rules)
+
     #initialize extensions
     em = ExtensionManager.ExtensionManager(c.extensions_directory)
     lext = [mod.Extension(junk_queue) for mod in em.extensions.values()]
