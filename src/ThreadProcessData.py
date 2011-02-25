@@ -26,6 +26,7 @@ class ThreadProcessData(threading.Thread):
                     match = re.search(val, junk['data'], re.IGNORECASE)
                     if match:
                         self.out_queue.put(junk)
+                        break
 
             self.junk_queue.task_done()
 
