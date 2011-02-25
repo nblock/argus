@@ -32,7 +32,6 @@ def main():
     log.info('start argus')
 
     rules = RulesManager.RulesManager().get_rules_dict()
-    print(rules)
 
     #initialize extensions
     em = ExtensionManager.ExtensionManager(c.extensions_directory)
