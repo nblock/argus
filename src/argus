@@ -44,7 +44,7 @@ def main():
 
     #spawn some datamining threads
     for i in range(c.datamine_threads):
-        dt = ThreadProcessData.ThreadProcessData(junk_queue, out_queue)
+        dt = ThreadProcessData.ThreadProcessData(junk_queue, out_queue, rules)
         dt.setDaemon(True)
         dt.start()
     
