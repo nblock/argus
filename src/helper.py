@@ -11,10 +11,10 @@ import logging
 log = logging.getLogger('argus.helper')
 
 def retrieve_full_url(url):
+    s = ''
     try:
         f = urllib.request.urlopen(url)
         s = f.readall().decode('utf8')
-        return s
     except IOError as e:
         if hasattr(e, 'reason'):
             log.error('an error occured while fetching url (reason: {}).'.format(e.reason))
@@ -22,5 +22,7 @@ def retrieve_full_url(url):
             log.error('The server couldn\'t fulfill the request (error code: {}).'.format(e.code))
     except UnicodeDecodeError as e:
         log.error('an unicode decode error has appeared: {}'.format(e.reason))
+        
+    return s
 
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4 smartindent autoindent 
